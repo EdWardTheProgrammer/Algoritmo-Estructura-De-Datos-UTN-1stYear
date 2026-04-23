@@ -1,0 +1,19 @@
+#include <stdio.h>
+
+int main() {
+    int a, b;
+    printf("Por favor, introduzca un numero: ");
+    scanf("%d", &a); 
+    
+    printf("Ahora, introduzca otro numero: ");
+    scanf("%d", &b); 
+    
+    printf("Gracias. Resultados:\n");
+    printf("Suma: %d\n", a + b);
+    printf("Resta: %d\n", a - b);
+    printf("Multiplicacion: %d\n", a * b);
+    
+    printf("Division: %d / %d = %.2f\n", a, b, (float)a / b);
+
+    return 0;
+}

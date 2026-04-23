@@ -1,0 +1,23 @@
+#include <iostream>
+
+using namespace std;
+
+int main() {
+    int dia, mes, anio;
+    int fechaFinal;
+
+    cout << "Ingrese el dia (DD): ";
+    cin >> dia;
+    cout << "Ingrese el mes (MM): ";
+    cin >> mes;
+    cout << "Ingrese el año (AAAA): ";
+    cin >> anio;
+
+    // Empaquetamos los datos en un solo numero
+    // El año se mueve 4 lugares, el mes 2 lugares.
+    fechaFinal = (anio * 10000) + (mes * 100) + dia;
+
+    cout << "La fecha en formato AAAAMMDD es: " << fechaFinal << endl;
+
+    return 0;
+}

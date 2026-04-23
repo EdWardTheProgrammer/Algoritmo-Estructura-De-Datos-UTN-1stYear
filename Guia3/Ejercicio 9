@@ -1,0 +1,22 @@
+#include <iostream>
+
+using namespace std;
+
+int main() {
+    float a, b;
+	cout << "Ingresen 2 numeros: ";
+	cin >> a >> b;
+	
+	if(a > b){
+		cout<< a << " es mayor que " << b;
+	}
+	else if(a < b){
+		cout<< b << " es mayor que " << a;
+	}
+	else{
+		cout << "Ambos son iguales";
+	}
+  
+
+    return 0;
+}

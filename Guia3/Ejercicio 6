@@ -1,0 +1,11 @@
+#include <iostream>
+using namespace std;
+
+int main(){
+	int dolares;
+	cout << "Ingrese la cant de dolares que esta interesado en saber su conversion en bitcoin: " <<endl;
+	cin >> dolares;
+	
+	cout << "La cant de dolares " << dolares << " equivale a " << (float)dolares / 45000 << " bitcoins";
+	return 0;
+}

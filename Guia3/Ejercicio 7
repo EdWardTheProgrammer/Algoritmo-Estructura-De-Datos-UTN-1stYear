@@ -1,0 +1,14 @@
+#include <iostream>
+using namespace std;
+
+int main(){
+	float n;
+	cout << "Ingrese un numero: " <<endl;
+	cin >> n;
+	
+	cout << "Ahora vera lo siguiente del numero: " << n << endl;
+	cout << "La quinta parte: " << n / 5<< endl;
+	cout << "El resto de la division por 5: " << (int)n % 5<< endl;
+	cout << "La septima parte de la quinta parte: " << (n/5) / 7 << endl;
+	return 0;
+}

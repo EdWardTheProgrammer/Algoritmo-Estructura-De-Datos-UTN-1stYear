@@ -1,0 +1,22 @@
+#include <iostream>
+
+using namespace std;
+
+int main() {
+    int fecha;
+
+    cout << "Ingrese una fecha (AAAAMMDD): ";
+    cin >> fecha;
+    
+    // Extraemos las partes usando matemática
+    int anio = fecha / 10000; // ejemplo: 20260423
+    int mes = (fecha % 10000) / 100; // Mes: Primero eliminás el año usando el módulo % 10000 (esto te deja el resto: 0423). Luego, a ese resultado lo dividís por 100 para quitar el día.
+    int dia = fecha % 100;
+
+    cout << "\nResultados de la extraccion:" << endl;
+    cout << "Año: " << anio << endl;
+    cout << "Mes: " << mes << endl;
+    cout << "Dia: " << dia << endl;
+    
+    return 0;
+}

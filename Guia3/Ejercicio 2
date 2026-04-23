@@ -16,6 +16,6 @@ int main() {
 		cout << "Suma: " << a << " + " << b << "= " << a + b<< endl;
 		cout << "Resta: " << a << " - " << b << "= " << a - b<< endl;
 		cout << "Multiplicacion: " << a << " x " << b << "= " << a * b<< endl;
-		cout << "Division: " << a << " / " << b << "= " << static_cast<float>(a)/ b<< endl;
+		cout << "Division: " << a << " / " << b << "= " << (float)(a)/ b<< endl;
     return 0;
 }

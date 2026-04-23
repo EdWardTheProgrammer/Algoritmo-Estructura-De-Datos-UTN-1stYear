@@ -1,0 +1,58 @@
+#include <iostream>
+
+using namespace std;
+
+int main() {
+    float a, b, c;
+	cout << "Ingresen 3 numeros: ";
+	cin >> a >> b >> c;
+	float num1, num2, num3; // la variavble no puede llamarse 1num. No puede empezar con un numero
+	
+	if(a == b && a == c){
+		cout << "Los 3 son iguales";
+	}
+	
+	if(a > b){
+		if(a > c){
+		 	num1 = a;
+		 	if(c > b){
+		 		num2 = c;
+		 		num3 = b;
+			 }
+			 else{
+			 	num2 = b;
+			 	num3=c;
+			 }
+		}
+		else{
+			num1 = c;
+			num2 = a;
+			num3 = b;
+		}
+		
+	} else {
+		if(b > c){
+			num1 = b;
+			if(a < c){
+				num2 = c;
+				num3 = a;
+			}
+			else{
+				num2 = a;
+				num3 = c;
+			}
+		}
+		else{
+			num1 = c;
+			num2 = b;
+			num3 = a;
+		}
+	}
+	
+	cout<< "El orden de los numeros (de mayor a menor) es el siguiente:" <<endl;
+	cout<< "Primero: " << num1 << endl;
+	cout<< "Segundo: " << num2 << endl;
+	cout<< "Tercero: " << num3 << endl;
+	
+    return 0;
+}

@@ -1,0 +1,15 @@
+#include <stdio.h>
+
+int main() {
+    int x; // Declaramos la variable para el número entero
+
+    printf("Por favor, introduzca un numero entero: ");
+    
+    // Usamos %d porque es un entero (decimal)
+    // El & es obligatorio para que scanf sepa dónde guardar el dato
+    scanf("%d", &x); 
+
+    printf("Has introducido el numero %d, gracias.\n", x);
+
+    return 0;
+}

@@ -1,15 +1,16 @@
-#include <stdio.h>
+#include <iostream> // Librería estándar de entrada y salida en C++
+
+using namespace std; // Para no tener que escribir std:: antes de cada comando
 
 int main() {
-    int x; // Declaramos la variable para el número entero
+    int x;
 
-    printf("Por favor, introduzca un numero entero: ");
+    cout << "Por favor, introduzca un numero entero: ";
     
-    // Usamos %d porque es un entero (decimal)
-    // El & es obligatorio para que scanf sepa dónde guardar el dato
-    scanf("%d", &x); 
+    // cin extrae el valor del teclado y lo guarda en x
+    cin >> x; 
 
-    printf("Has introducido el numero %d, gracias.\n", x);
+    cout << "Has introducido el numero " << x << ", gracias." << endl; //cout imprime. Ademas, endl es como un \n
 
     return 0;
 }

@@ -1,19 +1,21 @@
-#include <stdio.h>
+#include <iostream> // Librería estándar de entrada y salida en C++
+
+using namespace std; // Para no tener que escribir std:: antes de cada comando
 
 int main() {
     int a, b;
-    printf("Por favor, introduzca un numero: ");
-    scanf("%d", &a); 
-    
-    printf("Ahora, introduzca otro numero: ");
-    scanf("%d", &b); 
-    
-    printf("Gracias. Resultados:\n");
-    printf("Suma: %d\n", a + b);
-    printf("Resta: %d\n", a - b);
-    printf("Multiplicacion: %d\n", a * b);
-    
-    printf("Division: %d / %d = %.2f\n", a, b, (float)a / b);
 
+    cout << "Por favor, introduzca un numero: ";
+    cin >> a; 
+
+	cout << "Por favor, introduzca otro numero: "; 
+	cin >> b; 
+	
+    cout << "Gracias por introducir los numeros " << a << " y " << b <<endl; //cout imprime. Ademas, endl es como un \n
+		cout << "Ahora vera la suma, resta, multiplicacion y division entre esos 2 numeros " << endl; 
+		cout << "Suma: " << a << " + " << b << "= " << a + b<< endl;
+		cout << "Resta: " << a << " - " << b << "= " << a - b<< endl;
+		cout << "Multiplicacion: " << a << " x " << b << "= " << a * b<< endl;
+		cout << "Division: " << a << " / " << b << "= " << static_cast<float>(a)/ b<< endl;
     return 0;
 }

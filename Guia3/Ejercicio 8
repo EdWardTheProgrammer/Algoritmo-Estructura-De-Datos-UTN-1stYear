@@ -1,0 +1,33 @@
+#include <iostream>
+#include <iomanip> // Para que los precios se vean prolijos
+
+using namespace std;
+
+int main() {
+    float importe;
+
+    cout << "Ingrese el importe de la compra: ";
+    cin >> importe;
+
+    // Configuramos para mostrar siempre 2 decimales
+    cout << fixed << setprecision(2);
+
+    cout << "\nPosibles formas de pago:\n" << endl;
+
+    // 1 cuota (sin recargo)
+    cout << "1 cuota de $" << importe << endl;
+
+    // 2 cuotas (5% de recargo)
+    float total2 = importe * 1.05;
+    cout << "2 cuotas de $" << total2 / 2 << " total $" << total2 << " (5% de recargo)" << endl;
+
+    // 6 cuotas (30% de recargo)
+    float total6 = importe * 1.30;
+    cout << "6 cuotas de $" << total6 / 6 << " total $" << total6 << " (30% de recargo)" << endl;
+
+    // 12 cuotas (50% de recargo)
+    float total12 = importe * 1.50;
+    cout << "12 cuotas de $" << total12 / 12 << " total $" << total12 << " (50% de recargo)" << endl;
+
+    return 0;
+}

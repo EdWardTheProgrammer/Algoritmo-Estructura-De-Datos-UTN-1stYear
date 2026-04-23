@@ -1,0 +1,19 @@
+#include <iostream>
+
+using namespace std;
+
+int main() {
+    float a, b, c;
+    
+    cout << "Por favor, introduzca los precios de los 3 productos (acordate que los numeros decimales van con . y no con ,): "<< endl;
+    cin >> a >> b >> c; 
+    
+    cout << "Resultados: " << endl;
+    cout << "Primer precio: " << a << endl;
+    cout << "Segundo precio: " << b << endl;
+    cout << "Tercer precio: " << c << endl;
+    
+    cout << "Promedio: " << (a + b + c) / 3 << endl;
+
+    return 0;
+}

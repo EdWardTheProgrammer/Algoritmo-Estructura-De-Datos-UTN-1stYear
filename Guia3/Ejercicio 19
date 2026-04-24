@@ -1,0 +1,40 @@
+#include <iostream>
+using namespace std;
+
+int main() {
+    int numero;
+    int sumaMayores100 = 0;
+    int contadorMayores100 = 0;
+    int sumaMenoresMenos10 = 0;
+
+    for (int i = 0; i < 50; i++) {
+        cout << "(" << i + 1 << "/50) Ingrese un numero: ";
+        cin >> numero;
+
+        // Condición 1: Mayores que 100 (para promedio)
+        if (numero > 100) {
+            sumaMayores100 += numero;
+            contadorMayores100++;
+        }
+        
+        // Condición 2: Menores que -10 (solo suma)
+        if (numero < -10) {
+            sumaMenoresMenos10 += numero;
+        }
+    }
+
+    cout << "\n--- RESULTADOS ---" << endl;
+
+    // Calculamos el promedio solo si hubo números mayores a 100 para evitar dividir por cero
+    if (contadorMayores100 > 0) {
+        // Usamos (float) para que la división sea decimal y no entera
+        float promedio = (float)sumaMayores100 / contadorMayores100;
+        cout << "Promedio de los mayores a 100: " << promedio << endl;
+    } else {
+        cout << "No se ingresaron numeros mayores a 100." << endl;
+    }
+
+    cout << "Suma de los menores a -10: " << sumaMenoresMenos10 << endl;
+
+    return 0;
+}

@@ -1,0 +1,24 @@
+#include <iostream>
+using namespace std;
+
+int main() {
+    int n, m;
+    int producto = 0;
+
+    cout << "Ingrese N: "; cin >> n;
+    cout << "Ingrese M: "; cin >> m;
+
+    cout << "Proceso: ";
+    for (int i = 0; i < m; i++) {
+        producto += n;
+
+        // Si es la última vuelta (i == m-1) imprimimos "=", sino imprimimos "+"
+        string separador = (i == m - 1) ? " = " : " + ";
+        
+        cout << n << separador;
+    }
+
+    cout << producto << endl;
+
+    return 0;
+}

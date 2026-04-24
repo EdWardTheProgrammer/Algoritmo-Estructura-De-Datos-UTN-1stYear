@@ -1,0 +1,17 @@
+#include <iostream>
+
+using namespace std;
+
+void mostrarPrimeros50NumsNaturales(){
+	int c = 0;
+	for(int i = 0; i <= 50; i++){
+		cout << i << " - ";
+		c += i;
+	}
+	cout <<"\n La sumatoria de los 50 primeros numeros naturales es: " << c;
+}
+
+int main() {
+	mostrarPrimeros50NumsNaturales();
+   
+}

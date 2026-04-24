@@ -1,0 +1,63 @@
+#include <iostream>
+using namespace std;
+
+// 1. Declaración de prototipos (para que el compilador las conozca)
+void ingresarFechas(int &dia1, int &mes1, int &anio1, int &dia2, int &mes2, int &anio2);
+void determinarFechaMasReciente(int dia1, int mes1, int anio1, int dia2, int mes2, int anio2);
+
+int main() {
+    int dia1, mes1, anio1, dia2, mes2, anio2;
+
+    // Las variables se pasarán por referencia para ser modificadas
+    ingresarFechas(dia1, mes1, anio1, dia2, mes2, anio2);
+
+    determinarFechaMasReciente(dia1, mes1, anio1, dia2, mes2, anio2);
+
+    return 0;
+}
+
+// 2. Uso de '&' para pasar por referencia 7 que se guarden los valores en el main;
+void ingresarFechas(int &dia1, int &mes1, int &anio1, int &dia2, int &mes2, int &anio2) {
+    cout << "Bienvenido, ingrese dos fechas:" << endl;
+    cout << "Ingrese el dia de la primera fecha: ";
+    cin >> dia1;
+    cout << "Ingrese el mes de la primera fecha: ";
+    cin >> mes1;
+    cout << "Ingrese el anio de la primera fecha: " <<endl;
+    cin >> anio1;
+
+    cout << "Ahora ingrese el dia de la segunda fecha: ";
+    cin >> dia2;
+    cout << "Ahora el mes de la segunda fecha: ";
+    cin >> mes2;
+    cout << "Ahora el anio de la segunda fecha: ";
+    cin >> anio2;
+}
+
+void determinarFechaMasReciente(int dia1, int mes1, int anio1, int dia2, int mes2, int anio2) {
+    bool MasRecientePrimeraFecha = true;
+    bool ambasFechasIguales = false;
+
+    if (anio1 == anio2) {
+        if (mes1 == mes2) {
+            if (dia1 == dia2) {
+                MasRecientePrimeraFecha = false;
+                ambasFechasIguales = true;
+            } else if (dia2 > dia1) {
+                MasRecientePrimeraFecha = false;
+            }
+        } else if (mes2 > mes1) { 
+            MasRecientePrimeraFecha = false;
+        }
+    } else if (anio2 > anio1) {
+        MasRecientePrimeraFecha = false;
+    }
+
+    if (ambasFechasIguales) {
+        cout << "Ambas fechas son la misma" << endl;
+    } else if (MasRecientePrimeraFecha) {
+        cout << "La primera fecha: " << dia1 << "/" << mes1 << "/" << anio1 << " es la mas reciente" << endl;
+    } else {
+        cout << "La segunda fecha: " << dia2 << "/" << mes2 << "/" << anio2 << " es la mas reciente" << endl;
+    }
+}

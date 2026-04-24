@@ -1,0 +1,71 @@
+#include <iostream>
+#include <cctype> // Para toupper
+
+using namespace std;
+
+// Definimos la estructura para agrupar los datos de una infracción
+struct Infraccion {
+    int tipo;
+    float multa;
+    char gravedad;
+};
+
+// Prototipos de funciones
+void pedirDatos(Infraccion &inf, int indice);
+void procesarInfraccion(Infraccion inf, float &totL, float &totM, float &totG, int &contClausura);
+void mostrarInformes(float totL, float totM, float totG, int contClausura);
+
+int main() {
+    Infraccion actual;
+    
+    // Variables para acumular resultados
+    float totalL = 0, totalM = 0, totalG = 0;
+    int contadorG34 = 0;
+
+    for (int i = 0; i < 10; i++) {
+        pedirDatos(actual, i + 1);
+        procesarInfraccion(actual, totalL, totalM, totalG, contadorG34);
+    }
+
+    mostrarInformes(totalL, totalM, totalG, contadorG34);
+
+    return 0;
+}
+
+// Función para la entrada de datos (usamos referencia & para modificar la variable)
+void pedirDatos(Infraccion &inf, int indice) {
+    cout << "--- Infraccion " << indice << " ---" << endl;
+    cout << "Tipo (1-4): "; cin >> inf.tipo;
+    cout << "Multa: "; cin >> inf.multa;
+    cout << "Gravedad (L, M, G): "; cin >> inf.gravedad;
+    inf.gravedad = toupper(inf.gravedad);
+    cout << endl;
+}
+
+// Función para procesar la lógica (recibe acumuladores por referencia para actualizarlos)
+void procesarInfraccion(Infraccion inf, float &totL, float &totM, float &totG, int &contClausura) {
+    // a) Acumular multas según gravedad
+    switch (inf.gravedad) {
+        case 'L': totL += inf.multa; break;
+        case 'M': totM += inf.multa; break;
+        case 'G': totG += inf.multa; break;
+    }
+
+    // b) Contador para clausura
+    if ((inf.tipo == 3 || inf.tipo == 4) && inf.gravedad == 'G') {
+        contClausura++;
+    }
+}
+
+void mostrarInformes(float totL, float totM, float totG, int contClausura) {
+    cout << "=====================================" << endl;
+    cout << "TOTALES POR GRAVEDAD:" << endl;
+    cout << "Leve (L):    $" << totL << endl;
+    cout << "Media (M):   $" << totM << endl;
+    cout << "Grave (G):   $" << totG << endl;
+    cout << "=====================================" << endl;
+
+    if (contClausura > 3) {
+        cout << "!!! CLAUSURAR FABRICA !!!" << endl;
+    }
+}

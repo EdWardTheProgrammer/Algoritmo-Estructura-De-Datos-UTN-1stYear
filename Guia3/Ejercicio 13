@@ -1,0 +1,54 @@
+#include <iostream>
+using namespace std;
+
+// El enum define nombres para estados lógicos. A diferencia de Java, no pueden contener argumentos.
+enum TipoTriangulo { EQUILATERO, ISOSCELES, ESCALENO };
+
+struct Triangulo {
+    float l1, l2, l3;
+    TipoTriangulo tipo; // Una variable dentro del struct que guarda el tipo
+};
+
+// Prototipos
+void pedirLados(Triangulo &t);
+void clasificarTriangulo(Triangulo &t);
+void mostrarResultado(Triangulo t);
+
+int main() {
+    Triangulo miTriangulo;
+
+    pedirLados(miTriangulo);
+    clasificarTriangulo(miTriangulo);
+    mostrarResultado(miTriangulo);
+
+    return 0;
+}
+
+void pedirLados(Triangulo &t) {
+    cout << "Ingrese Lado 1: "; cin >> t.l1;
+    cout << "Ingrese Lado 2: "; cin >> t.l2;
+    cout << "Ingrese Lado 3: "; cin >> t.l3;
+}
+
+void clasificarTriangulo(Triangulo &t) {
+    if (t.l1 == t.l2 && t.l2 == t.l3) {
+        t.tipo = EQUILATERO;
+    } 
+    else if (t.l1 == t.l2 || t.l1 == t.l3 || t.l2 == t.l3) {
+        t.tipo = ISOSCELES;
+    } 
+    else {
+        t.tipo = ESCALENO;
+    }
+}
+
+void mostrarResultado(Triangulo t) {
+    cout << "El triangulo es: ";
+    
+    // El switch funciona perfecto con los enums
+    switch (t.tipo) {
+        case EQUILATERO: cout << "EQUILATERO" << endl; break;
+        case ISOSCELES:  cout << "ISOSCELES" << endl; break;
+        case ESCALENO:   cout << "ESCALENO" << endl; break;
+    }
+}

@@ -1,0 +1,83 @@
+#include <iostream>
+#include <iomanip>
+
+using namespace std;
+
+// Prototipos de funciones
+void mostrarResultados(double maxNeg, bool huboNeg, double minPos, bool huboPos, double minRan, bool huboRan, double suma, int cant);
+
+int main() {
+    // Variables para los cálculos
+    double num;
+    double maxNegativo, minPositivo, minRango;
+    double sumaTotal = 0;
+    int cantTotal = 0;
+
+    // Banderas (flags) para saber si entró algún número en cada categoría
+    bool huboNeg = false;
+    bool huboPos = false;
+    bool huboRan = false;
+
+    cout << "Ingrese valores (0 para finalizar):" << endl;
+    
+    // Lectura inicial
+    cin >> num;
+
+    while (num != 0) {
+        // d) Acumulamos para el promedio
+        sumaTotal += num;
+        cantTotal++;
+
+        // a) Valor máximo negativo
+        if (num < 0) {
+            if (!huboNeg || num > maxNegativo) {
+                maxNegativo = num;
+                huboNeg = true;
+            }
+        } 
+        // b) Valor mínimo positivo
+        else if (num > 0) {
+            if (!huboPos || num < minPositivo) {
+                minPositivo = num;
+                huboPos = true;
+            }
+        }
+
+        // c) Valor mínimo en rango -17.3 y 26.9
+        if (num >= -17.3 && num <= 26.9) {
+            if (!huboRan || num < minRango) {
+                minRango = num;
+                huboRan = true;
+            }
+        }
+
+        // Siguiente lectura
+        cin >> num;
+    }
+
+    // Informe final
+    mostrarResultados(maxNegativo, huboNeg, minPositivo, huboPos, minRango, huboRan, sumaTotal, cantTotal);
+
+    return 0;
+}
+
+void mostrarResultados(double maxNeg, bool huboNeg, double minPos, bool huboPos, double minRan, bool huboRan, double suma, int cant) {
+    if (cant == 0) {
+        cout << "\nNo se ingresaron valores." << endl;
+        return;
+    }
+
+    cout << fixed << setprecision(2) << endl;
+    cout << "--- RESULTADOS ---" << endl;
+
+    if (huboNeg) cout << "Maximo negativo: " << maxNeg << endl;
+    else cout << "Maximo negativo: No hubo" << endl;
+
+    if (huboPos) cout << "Minimo positivo: " << minPos << endl;
+    else cout << "Minimo positivo: No hubo" << endl;
+
+    if (huboRan) cout << "Minimo en rango (-17.3 a 26.9): " << minRan << endl;
+    else cout << "Minimo en rango: No hubo" << endl;
+
+    cout << "Promedio general: " << (suma / cant) << endl;
+}

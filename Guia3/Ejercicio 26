@@ -2,35 +2,28 @@
 
 using namespace std;
 
-#include <iostream>
-
-using namespace std;
-
 void procesarParidad(int n) {
     if (n % 2 == 0) cout << "   El numero " << n << " es PAR." << endl;
     else cout << "   El numero " << n << " es IMPAR." << endl;
 }
 
 void algoritmoPrecondicional() {
-    int actual, anterior;
+    int actual, anterior = -1; // Inicializamos anterior para la primera comparación
 
     cout << "\n--- CICLO PRECONDICIONAL (while) ---" << endl;
     cout << "Ingrese un numero positivo: ";
     cin >> actual;
 
-    // Condición antes de entrar: el actual no puede ser igual al anterior
-    // (Iniciamos anterior con un valor que no rompa el programa al inicio)
-    anterior = -1; 
-
+    // La condición se evalúa ANTES de procesar
     while (actual != anterior) {
         if (actual > 0) {
             procesarParidad(actual);
-            anterior = actual;
-            cout << "Ingrese el siguiente numero (igual para salir): ";
+            anterior = actual; // Guardamos el valor procesado como 'anterior'
+            cout << "Ingrese el siguiente (igual para salir): ";
             cin >> actual;
         } else {
             cout << "Error: Ingrese solo positivos." << endl;
-            cout << "Ingrese el siguiente numero: ";
+            cout << "Reintente: ";
             cin >> actual;
         }
     }
@@ -42,20 +35,20 @@ void algoritmoPostcondicional() {
 
     cout << "\n--- CICLO POSTCONDICIONAL (do-while) ---" << endl;
     
+    // El ciclo se ejecuta y LUEGO evalúa la condición al final
     do {
-        cout << "Ingrese un numero positivo: ";
+        cout << "Ingrese un numero positivo (igual al anterior para salir): ";
+        anterior = actual; // El que era 'actual' ahora es 'anterior'
         cin >> actual;
 
-        if (actual == anterior) break; // Salida inmediata si es igual
-
-        if (actual > 0) {
+        // Solo procesamos si no es la condición de salida y es positivo
+        if (actual != anterior && actual > 0) {
             procesarParidad(actual);
-            anterior = actual;
-        } else {
+        } else if (actual <= 0 && actual != anterior) {
             cout << "Error: Ingrese solo positivos." << endl;
         }
 
-    } while (true); // El control real de salida lo hace el 'if (actual == anterior)'
+    } while (actual != anterior); 
     
     cout << "Finalizado por repeticion." << endl;
 }

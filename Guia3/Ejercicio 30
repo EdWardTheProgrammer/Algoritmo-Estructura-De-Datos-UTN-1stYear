@@ -1,0 +1,91 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+// Estructura para agrupar los datos
+struct Persona {
+    string nombre;
+    int fechaNacimiento;
+};
+
+// Prototipos de funciones
+Persona cargarPersona();
+void calcularExtremos(Persona actual, Persona &mayor, Persona &joven, bool &esPrimera);
+void mostrarReporte(Persona mayor, Persona joven, bool huboDatos);
+
+int main() {
+    Persona personaActual;
+    Persona personaMayor, personaJoven;
+    bool esPrimera = true;
+    bool continuar = true; // Bandera para controlar el ciclo sin usar break
+
+    cout << "--- Registro de Edades ---" << endl;
+    cout << "(Ingrese 'FIN' para terminar)" << endl;
+
+    while (continuar) {
+        personaActual = cargarPersona();
+
+        if (personaActual.nombre == "FIN" || personaActual.nombre == "fin") {
+            continuar = false; // Cambiamos el estado para que el ciclo termine solo
+        } else {
+            calcularExtremos(personaActual, personaMayor, personaJoven, esPrimera);
+        }
+    }
+
+    mostrarReporte(personaMayor, personaJoven, !esPrimera);
+
+    return 0;
+}
+
+// --- Definición de Funciones ---
+
+Persona cargarPersona() {
+    Persona p;
+    cout << "\nNombre: ";
+    cin >> p.nombre;
+
+    // Solo pedimos la fecha si no se ingresó el valor de corte
+    if (p.nombre != "FIN" && p.nombre != "fin") {
+        do {
+            cout << "Fecha (AAAAMMDD): ";
+            cin >> p.fechaNacimiento;
+            if (p.fechaNacimiento <= 0) {
+                cout << "Error: Ingrese una fecha valida." << endl;
+            }
+        } while (p.fechaNacimiento <= 0);
+    }
+    return p;
+}
+
+void calcularExtremos(Persona actual, Persona &mayor, Persona &joven, bool &esPrimera) {
+    if (esPrimera) {
+        // La primera persona ingresada es, por ahora, la mayor y la menor
+        mayor = actual;
+        joven = actual;
+        esPrimera = false;
+    } else {
+        // En formato AAAAMMDD:
+        // El numero menor es la persona con mas edad (nacio antes)
+        if (actual.fechaNacimiento < mayor.fechaNacimiento) {
+            mayor = actual;
+        }
+        // El numero mayor es la persona mas joven (nacio despues)
+        if (actual.fechaNacimiento > joven.fechaNacimiento) {
+            joven = actual;
+        }
+    }
+}
+
+void mostrarReporte(Persona mayor, Persona joven, bool huboDatos) {
+    if (huboDatos) {
+        cout << "\n========================================" << endl;
+        cout << "REPORTE FINAL" << endl;
+        cout << "========================================" << endl;
+        cout << "MAS LONGEVO/A: " << mayor.nombre << " [" << mayor.fechaNacimiento << "]" << endl;
+        cout << "MAS JOVEN:     " << joven.nombre << " [" << joven.fechaNacimiento << "]" << endl;
+        cout << "========================================" << endl;
+    } else {
+        cout << "\nNo se procesaron datos." << endl;
+    }
+}

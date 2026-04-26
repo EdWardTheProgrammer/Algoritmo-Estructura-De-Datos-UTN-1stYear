@@ -1,0 +1,21 @@
+#include <iostream>
+using namespace std;
+
+void ingresarNumerosPositivos(){
+	int n;
+	int i = 0;
+	while(n > 0){
+		i++;
+		cin >> n;
+		
+	}
+	cout << "\nIngreso " << i << " valores";
+}
+
+int main() {
+    cout << "Bienvenido. Ingrese numeros positivos. Cuando ingrese un numero negativo, terminara el ciclo y vera cuantos valores ingreso" << endl;
+    cout << "Ingrese un numero:";
+    ingresarNumerosPositivos();
+
+    return 0;
+}

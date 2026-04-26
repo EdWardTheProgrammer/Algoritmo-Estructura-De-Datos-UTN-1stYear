@@ -1,0 +1,44 @@
+#include <iostream>
+
+using namespace std;
+
+// Función para procesar y mostrar los múltiplos
+void mostrarMultiplos(int cantidadDeseada) {
+    int encontrados = 0;
+    // Empezamos en 3 porque es el primer múltiplo de 3 natural
+    int numeroActual = 3; 
+
+    cout << "\nListado de los " << cantidadDeseada << " primeros multiplos de 3 (no de 5):" << endl;
+    cout << "-------------------------------------------------------" << endl;
+
+    while (encontrados < cantidadDeseada) {
+        // Como numeroActual siempre es múltiplo de 3 (por el incremento de 3 en 3),
+        // solo nos preocupa filtrar los que sean múltiplos de 5.
+        if (numeroActual % 5 != 0) {
+            encontrados++;
+            cout << encontrados << ") " << numeroActual << endl;
+        }
+        
+        // Optimizacion: Saltamos directamente al siguiente múltiplo de 3
+        numeroActual += 3; 
+    }
+}
+
+int main() {
+    int M;
+
+    // Bucle de validación: se repite mientras M sea menor o igual a 0
+    do {
+        cout << "Ingrese la cantidad de multiplos a encontrar (M debe ser > 0): ";
+        cin >> M;
+
+        if (M <= 0) {
+            cout << "[Error] El valor ingresado no es valido. Reintente." << endl;
+        }
+
+    } while (M <= 0);
+
+    mostrarMultiplos(M);
+
+    return 0;
+}

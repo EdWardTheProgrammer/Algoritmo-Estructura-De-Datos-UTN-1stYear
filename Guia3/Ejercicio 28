@@ -1,0 +1,22 @@
+#include <iostream>
+using namespace std;
+
+void ingresarNumerosYDeterminarMayor(){
+	int n,mayor;
+	for(int i = 0; i < 10; i++){
+		cin >> n;
+		if(n > mayor){
+			mayor = n;
+		}
+		
+	}
+	cout << "\nEl mayor numero fue " << mayor;
+}
+
+int main() {
+    cout << "Bienvenido. Ingrese 10 valores, para que luego le mostremos el mayor de todos" << endl;
+    cout << "Ingrese numeros:";
+    ingresarNumerosYDeterminarMayor();
+
+    return 0;
+}

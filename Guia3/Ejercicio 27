@@ -1,0 +1,82 @@
+#include <iostream>
+#include <iomanip>
+
+using namespace std;
+
+// Prototipos de funciones
+void procesarLoteCompleto();
+double procesarSublote(int &valorActual, bool &finGeneral);
+
+int main() {
+    cout << "--- Inicio de Procesamiento de Lotes ---" << endl;
+    cout << "Ingrese valores (0 para fin de sublote, -1 para fin general):" << endl;
+    
+    procesarLoteCompleto();
+    
+    return 0;
+}
+
+// Función que coordina todos los sublotes
+void procesarLoteCompleto() {
+    int valor;
+    int contadorSublotes = 0;
+    bool finGeneral = false;
+
+    // Lectura inicial
+    cin >> valor;
+
+    if (valor == -1) {
+        cout << "El lote general esta vacio." << endl;
+        return;
+    }
+
+    while (!finGeneral) {
+        contadorSublotes++;
+        cout << "\n>>> Sublote Nro: " << contadorSublotes << endl;
+
+        // Llamamos a la funcion que procesa el sublote actual
+        double promedio = procesarSublote(valor, finGeneral);
+
+        if (promedio >= 0) {
+            cout << "    Promedio del sublote: " << fixed << setprecision(2) << promedio << endl;
+        } else {
+            cout << "    El sublote estaba vacio (promedio indefinido)." << endl;
+        }
+
+        // Si no llegamos al fin general, leemos el siguiente para el proximo sublote
+        if (!finGeneral) {
+            cin >> valor;
+            if (valor == -1) finGeneral = true;
+        }
+    }
+
+    cout << "\n========================================" << endl;
+    cout << "TOTAL DE SUBLOTES PROCESADOS: " << contadorSublotes << endl;
+    cout << "========================================" << endl;
+}
+
+// Función que procesa cada sublote individualmente
+// Devuelve el promedio o -1 si el sublote esta vacio
+double procesarSublote(int &valorActual, bool &finGeneral) {
+    int suma = 0;
+    int cantidad = 0;
+
+    // Mientras no sea cero (fin de sublote) y no sea -1 (fin general)
+    while (valorActual != 0 && valorActual != -1) {
+        if (valorActual > 0) {
+            suma += valorActual;
+            cantidad++;
+        }
+        cin >> valorActual;
+    }
+
+    if (valorActual == -1) {
+        finGeneral = true;
+    }
+
+    if (cantidad > 0) {
+        return (double)suma / cantidad;
+    } else {
+        return -1.0; // Indicador de sublote vacio
+    }
+}

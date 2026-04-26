@@ -1,0 +1,59 @@
+#include <iostream>
+#include <iomanip> // Para limitar los decimales en la salida
+
+using namespace std;
+
+// Prototipos de funciones
+int solicitarCantidadTerminos();
+double calcularSerieHarmonica(int n);
+void mostrarResultado(int n, double resultado);
+
+int main() {
+    // 1. Entrada validada
+    int n = solicitarCantidadTerminos();
+    
+    // 2. Procesamiento
+    double resultado = calcularSerieHarmonica(n);
+    
+    // 3. Salida
+    mostrarResultado(n, resultado);
+
+    return 0;
+}
+
+// --- Definición de Funciones ---
+
+// Función que usa do-while para asegurar que n sea un entero positivo
+int solicitarCantidadTerminos() {
+    int n;
+    do {
+        cout << "Ingrese la cantidad de terminos (n > 0): ";
+        cin >> n;
+        if (n <= 0) {
+            cout << "Error: El numero debe ser un entero positivo." << endl;
+        }
+    } while (n <= 0);
+    return n;
+}
+
+// Función que realiza el cálculo de la serie
+double calcularSerieHarmonica(int n) {
+    double suma = 0.0;
+    for (int i = 1; i <= n; i++) {
+        /* IMPORTANTE: Usamos 1.0 (double) en lugar de 1 (int) 
+           para forzar la división decimal. 
+           Si hiciéramos 1/i con i > 1, el resultado sería 0.
+        */
+        suma += 1.0 / i;
+    }
+    return suma;
+}
+
+// Función para imprimir el resultado con formato
+void mostrarResultado(int n, double resultado) {
+    cout << "\n-----------------------------------------" << endl;
+    cout << "La suma de los primeros " << n << " terminos es: " << endl;
+    // setprecision(4) muestra 4 decimales para mayor claridad
+    cout << fixed << setprecision(4) << resultado << endl;
+    cout << "-----------------------------------------" << endl;
+}

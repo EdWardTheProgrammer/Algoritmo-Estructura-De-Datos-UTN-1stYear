@@ -2,65 +2,81 @@
 
 using namespace std;
 
+int validarCantidadEquipos();
+void cargarDatos(int K, int torneo[][2]);
+char validarResultado();
+void mostrarResultados(int K, int torneo[][2]);
+
 int main() {
-    int K;
-
-    // Validación de entrada para la cantidad de equipos
-    do {
-        cout << "Ingrese la cantidad de equipos participantes (minimo 2): ";
-        cin >> K;
-        if (K < 2) {
-            cout << "Numero invalido. Debe haber al menos 2 equipos." << endl;
-        }
-    } while (K < 2);
-
+    int K = validarCantidadEquipos();
+    
     /* Definimos la matriz: 
-       Filas: K (una por cada equipo)
-       Columnas: 2 (Col 0: ID del equipo, Col 1: Puntaje Total)
-    */
+       Filas: K (equipos)
+       Columnas: 2 (ID y Puntaje) */
     int torneo[K][2];
 
-    // Procesamiento de datos por equipo
-    for (int i = 0; i < K; i++) {
-        int id, puntos = 0;
-        char resultado;
-
-        cout << "\n--- Datos del Equipo " << i + 1 << " ---" << endl;
-        cout << "Ingrese el nro de equipo: ";
-        cin >> id;
-        
-        torneo[i][0] = id; // Guardamos el ID en la primera columna
-
-        // Cada equipo juega K-1 partidos en un todos contra todos
-        cout << "Ingrese los resultados de los " << K - 1 << " partidos:" << endl;
-        for (int j = 0; j < K - 1; j++) {
-            do {
-                cout << " Partido " << j + 1 << " (G/E/P): ";
-                cin >> resultado;
-                resultado = toupper(resultado); // Convertir a mayúscula por seguridad
-
-                if (resultado == 'G') {
-                    puntos += 3;
-                } else if (resultado == 'E') {
-                    puntos += 1;
-                } else if (resultado != 'P') {
-                    cout << " Codigo invalido. Use G, E o P." << endl;
-                }
-            } while (resultado != 'G' && resultado != 'E' && resultado != 'P');
-        }
-        
-        torneo[i][1] = puntos; // Guardamos el puntaje final en la segunda columna
-    }
-
-    // Impresión de resultados finales
-    cout << "\n===============================" << endl;
-    cout << "   RESULTADOS DEL TORNEO" << endl;
-    cout << "===============================" << endl;
-    cout << "EQUIPO\t\tPUNTAJE TOTAL" << endl;
-
-    for (int i = 0; i < K; i++) {
-        cout << torneo[i][0] << "\t\t" << torneo[i][1] << " pts" << endl;
-    }
+    cargarDatos(K, torneo);
+    mostrarResultados(K, torneo);
 
     return 0;
+}
+
+// --- Funciones ---
+
+// Valida que la cantidad de equipos sea mayor a 1
+int validarCantidadEquipos() {
+    int k;
+    do {
+        cout << "Ingrese la cantidad de equipos participantes: ";
+        cin >> k;
+        if (k < 2) cout << "Error: Debe haber al menos 2 equipos." << endl;
+    } while (k < 2);
+    return k;
+}
+
+// Valida que el código de resultado sea correcto
+char validarResultado() {
+    char res;
+    do {
+        cout << "   Resultado (G/E/P): ";
+        cin >> res;
+        res = toupper(res);
+        if (res != 'G' && res != 'E' && res != 'P') {
+            cout << "   Codigo invalido! Ingrese G, E o P." << endl;
+        }
+    } while (res != 'G' && res != 'E' && res != 'P');
+    return res;
+}
+
+// Carga la matriz con los IDs y calcula los puntajes
+void cargarDatos(int K, int torneo[][2]) {
+    for (int i = 0; i < K; i++) {
+        int puntosEquipo = 0;
+        
+        cout << "\n--- Equipo " << i + 1 << " ---" << endl;
+        cout << "Numero identificador: ";
+        cin >> torneo[i][0];
+
+        cout << "Ingrese los " << K - 1 << " resultados del equipo:" << endl;
+        for (int j = 0; j < K - 1; j++) {
+            char res = validarResultado();
+            
+            if (res == 'G') puntosEquipo += 3;
+            else if (res == 'E') puntosEquipo += 1;
+        }
+        torneo[i][1] = puntosEquipo;
+    }
+}
+
+// Recorre la matriz y muestra el reporte final
+void mostrarResultados(int K, int torneo[][2]) {
+    cout << "\n===============================" << endl;
+    cout << "   TABLA FINAL DE POSICIONES" << endl;
+    cout << "===============================" << endl;
+    cout << "NRO EQUIPO\tPUNTAJE" << endl;
+    
+    for (int i = 0; i < K; i++) {
+        cout << "    " << torneo[i][0] << "\t\t  " << torneo[i][1] << " pts" << endl;
+    }
+    cout << "===============================" << endl;
 }

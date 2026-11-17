@@ -1,0 +1,334 @@
+#include <iostream>
+#include <cstring>
+#define CAPACIDADMAX 100
+using namespace std;
+
+
+
+struct TAlumno{
+	char nombre[50];
+	int notaMatematicas;
+	int notaLengua;
+	int edad;
+	char curso;
+	int division;
+};
+
+void insertarYDesplazar(TAlumno Alumnos[], int &tamanio);
+int verYElegirOpciones();
+void ordenarAlumnosPorEdad(TAlumno Alumnos[], int tamanio);
+void mostrarAlumnos(TAlumno Alumnos[], int tamanio);
+void mostrarMejorYPeorAlumno(TAlumno Alumnos[], int tamanio);
+void buscarAlumnoPorEdad(TAlumno Alumnos[], int tamanio);
+void realizarOrdenamientoPorBurbuja(TAlumno Alumnos[], int tamanio, char indicacion);
+int realizarBusquedaBinaria(TAlumno Alumnos[], int tamanio, int valorBuscado);
+int realizarBusquedaSecuencial(TAlumno alumnos[], int tamanio, char nombreBuscado[50]);
+void mostrarPromedioCorteDeControl(TAlumno alumnos[], int tamanio);
+void realizarCargaConDesplazamiento (TAlumno alumnos[], int &tamanio, TAlumno alumnoNuevo, int posicion);
+
+int main(){
+	
+	int tamanio = 5;
+	TAlumno Alumnos[CAPACIDADMAX] = {
+	{"Eduardo", 11, 7, 15, 'A', 1},
+	{"Jose", 8, 9, 12, 'B', 2},
+	{"Mateo", 7, 10, 20, 'C', 1},
+	{"Pepe", 3, 6, 9, 'A', 3},
+	{"Rodolfo", 5,1, 17, 'B', 2},
+	};
+	
+	cout << "Bienvenido al sistema de alumnos" << endl;
+	int decision;
+	do{ 
+	decision = verYElegirOpciones();
+	switch(decision){
+		case 1:
+			insertarYDesplazar(Alumnos, tamanio);
+			break;
+		case 2: 
+			mostrarAlumnos(Alumnos, tamanio);
+			break;
+		case 3:
+			mostrarMejorYPeorAlumno(Alumnos, tamanio);
+			break;
+		case 4:
+			buscarAlumnoPorEdad(Alumnos, tamanio);
+			break;
+		case 5:
+			mostrarPromedioCorteDeControl(Alumnos, tamanio);
+			break;
+	}
+	
+	}while(decision != 6);	
+return 0;
+}
+
+int verYElegirOpciones(){
+	cout << "1) Insertar un alumno en la lista, eligiendo su posicion" << endl;
+	cout << "2) Ver alumnos" << endl;
+	cout << "3) Ver alumno con nota mas alta y mas baja en una Materia" << endl;
+	cout << "4) Buscar alumno de cierta edad" << endl;
+	cout << "5) Ver promedios por division en Maths" << endl;
+	cout << "6) Irse" << endl;
+	
+	int elegirOpcion;
+	do{
+	cin >> elegirOpcion;
+	cin.ignore();
+	if(elegirOpcion < 0 || elegirOpcion > 5){
+		cout << "Ingrese una opcion valida" << endl;
+	}
+	
+	}while(elegirOpcion < 0 || elegirOpcion > 5);
+	return elegirOpcion;
+}
+void insertarYDesplazar(TAlumno Alumnos[], int &tamanio) {
+	TAlumno pibeNuevo;
+	char decision;	
+	int eleccion;
+	do{
+	cout << "Quiere elegir la posicion para ubicarlo: Si (S) o No(N)?" <<endl;
+	cin >> decision;
+	cin.ignore();
+    int comprobacion;
+	char nombre[50];
+	do{
+	cout << "Inserte el nombre: " << endl;
+    cin.getline(nombre, 50); //el cin.ignore no se usa con un getline ya que el misero getline elimina el \n del buffer de entrada de datos
+    comprobacion = realizarBusquedaSecuencial(Alumnos, tamanio, nombre); 
+    if(comprobacion != -1){
+    	cout << "Ese nombre ya esta. Lo posee el alumno numero: " << comprobacion + 1<< ". Ingrese otro"<< endl;
+	}
+    }while(comprobacion != -1);
+    strcpy(pibeNuevo.nombre, nombre);
+    cout << "Inserte la nota de matematicas: " << endl;
+    int notaMaths;
+    cin >> notaMaths;
+    pibeNuevo.notaMatematicas = notaMaths;
+    cin.ignore(); 
+    
+    cout << "Inserte la nota de lengua: " << endl;
+    int notaLengua;
+    cin >> notaLengua;
+    pibeNuevo.notaLengua = notaLengua;
+    cin.ignore(); 
+    
+    cout << "Inserte la edad del pibe: " << endl;
+    int edad;
+    cin >> edad;
+    pibeNuevo.edad = edad;
+    cin.ignore(); 
+    char curso;
+    cout << "Ingrese el curso del chico (Tiene que ser A, B o C): "<<endl;
+	 do {
+            cin >> curso;
+            cin.ignore(); 
+            if(toupper(curso) != 'A' && toupper(curso) != 'B' && toupper(curso) != 'C') {
+                cout << "Ingrese un curso valido" << endl;
+            }
+        } while(toupper(curso) != 'A' && toupper(curso) != 'B' && toupper(curso) != 'C');
+        pibeNuevo.curso = curso;
+        cout << "Ingrese la division del pibe (solo 1, 2 o 3): " << endl;
+	 int division;
+	do{
+		cin >> division;
+		cin.ignore();
+		
+		if(division != 1 && division != 2 && division != 3){
+			cout << "Ingrese un valor valido"<<endl;
+		}
+		
+	}while(division != 1 && division != 2 && division != 3);
+	
+	pibeNuevo.division = division;
+	
+    if(toupper(decision) == 'S'){
+	cout << "Inserte la posicion en la que quiere poner al pibe: ";
+    int posicion;
+    cin >> posicion;
+    cin.ignore();
+    realizarCargaConDesplazamiento(Alumnos, tamanio, pibeNuevo, posicion);
+}
+	else if(toupper(decision) == 'N'){
+	strcpy(Alumnos[tamanio].nombre, nombre);
+    Alumnos[tamanio].notaMatematicas = notaMaths;
+    Alumnos[tamanio].notaLengua = notaLengua;
+    Alumnos[tamanio].edad = edad;
+	Alumnos[tamanio].curso = curso;	
+	Alumnos[tamanio].division = division;
+	}
+    tamanio++;
+    cout << "¡Alumno guardado con exito!" << endl;
+    cout << "Quiere seguir poniendo pibes (0 para detenerse)?" <<endl;
+    cin >> eleccion;
+    cin.ignore();
+}while(eleccion != 0);
+
+}
+
+void realizarCargaConDesplazamiento (TAlumno alumnos[], int &tamanio, TAlumno alumnoNuevo, int posicion){
+	posicion--;
+	for(int i = tamanio - 1; i >= posicion; i--){
+		alumnos[i+1] = alumnos[i];
+	}
+	alumnos[posicion] = alumnoNuevo;
+	tamanio++;
+}
+
+int realizarBusquedaSecuencial(TAlumno alumnos[], int tamanio, char nombreBuscado[50]){
+    for(int i = 0; i < tamanio; i++){
+        if(_stricmp(alumnos[i].nombre, nombreBuscado) == 0){ //Usa _stricmp porque no distingue mayusculas o minusculas. Permitiendo que, por ejemplo: Eduardo, eduardo y EDUARDO sean lo mismo. Ademas, no se puede usar tolower/toupper en cadenas de caracteres
+            return i;
+        }
+    }
+    return -1;
+}
+
+void mostrarAlumnos(TAlumno Alumnos[], int tamanio) {
+    cout << "\n--- Lista de Alumnos ---" << endl;
+    for(int i = 0; i < tamanio; i++){
+        cout << "Nombre: " << Alumnos[i].nombre 
+             << " | Matematicas: " << Alumnos[i].notaMatematicas 
+             << " | Lengua: " << Alumnos[i].notaLengua 
+             << " | Edad: " << Alumnos[i].edad
+             << " | Curso: " << Alumnos[i].curso
+             << " | Division: " << Alumnos[i].division << endl;
+    }
+}
+
+void mostrarMejorYPeorAlumno(TAlumno Alumnos[], int tamanio) {
+    int peorNota;
+    int mejorNota;
+    int posicionMejorAlumno = 0; 
+    int posicionPeorAlumno = 0;  
+    char eleccion;
+    
+    cout << "De que materia quiere saber la mejor y peor nota: Matematicas (M) o Lengua (L)?" << endl;
+    cin >> eleccion;
+    cin.ignore(); // ¡Limpiamos el buffer justo después de usar cin!
+
+    if(toupper(eleccion) == 'M'){
+        peorNota = Alumnos[0].notaMatematicas;
+        mejorNota = Alumnos[0].notaMatematicas;
+        
+        // Puedes arrancar el bucle en 1 porque el 0 ya lo asignaste arriba
+        for(int i = 1; i < tamanio; i++){
+            if(peorNota > Alumnos[i].notaMatematicas){
+                peorNota = Alumnos[i].notaMatematicas;
+                posicionPeorAlumno = i;
+            }
+            if(mejorNota < Alumnos[i].notaMatematicas){
+                mejorNota = Alumnos[i].notaMatematicas;
+                posicionMejorAlumno = i;
+            }
+        }
+        cout << "El mejor alumno en Maths es " << Alumnos[posicionMejorAlumno].nombre << " con: " << mejorNota << endl;
+        cout << "El peor alumno en Maths es " << Alumnos[posicionPeorAlumno].nombre << " con: " << peorNota << endl;
+    }
+    else if (toupper(eleccion) == 'L'){
+        peorNota = Alumnos[0].notaLengua;
+        mejorNota = Alumnos[0].notaLengua;
+        
+        for(int i = 1; i < tamanio; i++){
+            if(peorNota > Alumnos[i].notaLengua){
+                peorNota = Alumnos[i].notaLengua;
+                posicionPeorAlumno = i;
+            }
+            if(mejorNota < Alumnos[i].notaLengua){
+                mejorNota = Alumnos[i].notaLengua;
+                posicionMejorAlumno = i;
+            }
+        }
+        cout << "El mejor alumno en Lengua es " << Alumnos[posicionMejorAlumno].nombre << " con: " << mejorNota << endl;
+        cout << "El peor alumno en Lengua es " << Alumnos[posicionPeorAlumno].nombre << " con: " << peorNota << endl;
+    } else {
+        cout << "Opcion de materia invalida." << endl;
+    }
+}
+void realizarOrdenamientoPorBurbuja(TAlumno Alumnos[], int tamanio, char indicacion[]) {
+    TAlumno aux; 
+    
+    for(int i = 0; i < tamanio; i++){
+        for(int j = 0; j < tamanio - 1 - i; j++){
+            bool debeIntercambiar = false;
+            
+            if(strcmp(indicacion, "Edad") == 0) {
+                if (Alumnos[j].edad > Alumnos[j + 1].edad) debeIntercambiar = true;
+            }
+            else if(strcmp(indicacion, "Division") == 0) {
+                if (Alumnos[j].division > Alumnos[j + 1].division) debeIntercambiar = true;
+            }
+            
+            // Si el criterio se cumplió, hacemos un único swap genérico
+            if (debeIntercambiar) {
+                aux = Alumnos[j];
+                Alumnos[j] = Alumnos[j + 1];
+                Alumnos[j + 1] = aux;
+            }
+        }
+    }
+}
+
+void buscarAlumnoPorEdad(TAlumno Alumnos[], int tamanio) {
+    cout << "Ingrese la edad del alumno: ";
+    int edad;
+    cin >> edad;
+    cin.ignore();
+    realizarOrdenamientoPorBurbuja(Alumnos, tamanio, "Edad");
+    int ubicacionAlumno = realizarBusquedaBinaria(Alumnos, tamanio, edad);
+    if(ubicacionAlumno == -1){
+    	cout << "No hay ningun alumno con esa edad" << endl;
+	}
+	else{
+		cout << "El alumno con esa edad es: " << Alumnos[ubicacionAlumno].nombre << endl;
+	}
+}
+
+int realizarBusquedaBinaria(TAlumno Alumnos[], int tamanio, int valorBuscado){
+	int inicio = 0;
+	int fin = tamanio - 1;
+	int medio;
+	
+	while(inicio <= fin){
+		medio = (inicio + fin) / 2;
+		
+		if(Alumnos[medio].edad == valorBuscado){
+			return medio;
+		}
+		if(valorBuscado > Alumnos[medio].edad){
+			inicio = medio + 1;
+		}
+		else{
+			fin = medio - 1;
+		}
+	}
+	return -1;
+}
+
+void mostrarPromedioCorteDeControl(TAlumno alumnos[], int tamanio){
+	TAlumno alumnosAuxiliar[CAPACIDADMAX];
+	for(int i = 0; i < tamanio; i++){
+		strcpy(alumnosAuxiliar[i].nombre, alumnos[i].nombre);
+		alumnosAuxiliar[i].notaMatematicas = alumnos[i].notaMatematicas;
+		alumnosAuxiliar[i].notaLengua = alumnos[i].notaLengua;
+		alumnosAuxiliar[i].curso = alumnos[i].curso;
+		alumnosAuxiliar[i].edad = alumnos[i].edad;
+		alumnosAuxiliar[i].division = alumnos[i].division;
+	}
+	realizarOrdenamientoPorBurbuja(alumnosAuxiliar, tamanio, "Division");
+	int i = 0;
+	float notasTotalDivision;
+	int cantAlumnosDivision;
+	while(i < tamanio){
+	int divisionActual = alumnosAuxiliar[i].division;
+	notasTotalDivision = 0;
+	int cantAlumnosDivision = 0;
+	while(i < tamanio && divisionActual == alumnosAuxiliar[i].division){
+		notasTotalDivision += alumnosAuxiliar[i].notaMatematicas;
+		i++;
+		cantAlumnosDivision++;
+	}
+	cout << "Promedio del curso " << divisionActual << ": " <<notasTotalDivision / cantAlumnosDivision<<endl;
+	}
+}
+	

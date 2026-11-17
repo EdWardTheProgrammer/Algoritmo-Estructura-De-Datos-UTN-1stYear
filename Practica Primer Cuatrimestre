@@ -3,7 +3,7 @@
 #define CAPACIDADMAX 100
 using namespace std;
 
-
+const int CAPACIDADMINIMA = 0;
 
 struct TAlumno{
 	char nombre[50];

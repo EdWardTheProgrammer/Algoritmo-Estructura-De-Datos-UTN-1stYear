@@ -1,0 +1,54 @@
+#include <cstdio>
+#include <iostream>
+using namespace std;
+
+struct Producto {
+    int id;
+    char nombre[30];
+    float precio;
+};
+
+int main() {
+    // 1. Creamos un archivo rápido con 4 productos para probar
+    FILE* arch = fopen("test.dat", "wb+"); // wb+ permite escribir y leer
+    Producto lista[4] = {
+        {10, "Arroz", 100},    // Índice 0 (bytes 0 a 39)
+        {20, "Fideos", 200},   // Índice 1 (bytes 40 a 79)
+        {30, "Aceite", 300},   // Índice 2 (bytes 80 a 119)
+        {40, "Azucar", 400}    // Índice 3 (bytes 120 a 159)
+    };
+    fwrite(lista, sizeof(Producto), 4, arch);
+
+    Producto p;
+
+    // --- EJEMPLO 1: SEEK_END y ftell (Saber cuánto pesa y cuántos hay) ---
+    fseek(arch, 0, SEEK_END); // Mueve el dedo al final (byte 160)
+    long bytesTotales = ftell(arch);
+    cout << "1. SEEK_END -> El dedo esta en el byte: " << bytesTotales << endl;
+    cout << "   Cantidad de registros: " << bytesTotales / sizeof(Producto) << endl << endl;
+
+    // --- EJEMPLO 2: SEEK_SET (Saltar directo a un registro desde el inicio) ---
+    // Queremos leer el índice 2 ("Aceite"). Saltamos 2 * 40 = 80 bytes desde el byte 0.
+    fseek(arch, 2 * sizeof(Producto), SEEK_SET);
+    cout << "2. SEEK_SET -> Dedo antes de leer en byte: " << ftell(arch) << endl;
+    fread(&p, sizeof(Producto), 1, arch); // Cuando se lee un archivo, avanza automaticamente
+	// un espacio. Al leer, el dedo avanza solo 40 bytes (queda en 120)
+    cout << "   Lei: " << p.nombre << " | Dedo despues de leer en byte: " << ftell(arch) << endl << endl;
+
+    // --- EJEMPLO 3: SEEK_CUR (Moverse relativo a donde estoy parado ahora) ---
+    // Ahora el dedo esta en el byte 120 (justo despues de "Aceite").
+    // Si queremos volver a leer "Aceite" (por ejemplo, para modificarlo), retrocedemos 1 registro:
+    fseek(arch, -((long)sizeof(Producto)), SEEK_CUR); 
+    cout << "3. SEEK_CUR -> Retrocedi 1 lugar, dedo en byte: " << ftell(arch) << endl;
+    fread(&p, sizeof(Producto), 1, arch);
+    cout << "   Volvi a leer: " << p.nombre << endl << endl;
+
+    // --- EJEMPLO 4: SEEK_SET a 0 (Rebobinar al principio) ---
+    fseek(arch, 0, SEEK_SET);
+    cout << "4. SEEK_SET(0) -> Rebobinado al byte: " << ftell(arch) << endl;
+    fread(&p, sizeof(Producto), 1, arch);
+    cout << "   Primer producto: " << p.nombre << endl;
+
+    fclose(arch);
+    return 0;
+}
